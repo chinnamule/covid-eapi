@@ -1,0 +1,32 @@
+#%RAML 1.0 Library
+usage:  Types for uho sapi
+types:
+  get-reports-response-type:
+  reports:
+    type: object
+    properties:
+      type: array
+      items:
+        type: object
+        properties:
+          state:
+            type: string
+            example: "texas"
+          report:
+            type: object
+            properties:
+              total:
+                type: number
+                example: 46744
+              positive:
+                type: number
+                example: 436744
+              recovered:
+                type: number
+                example: 433744
+              death:
+                type: number
+                example: 300
+              vaccinated:
+                type: number
+                example: 7847848

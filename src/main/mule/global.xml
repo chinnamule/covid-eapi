@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="covid-eapi-httpListenerConfig" basePath="covid">
+        <http:listener-connection host="0.0.0.0" port="${http.port}" />
+    </http:listener-config>
+    <apikit:config name="covid-eapi-config" api="covid-eapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="aaa8e37c-89a0-48d0-bdf3-60132f8b13d4" file="${env}.yaml" key="${enc.key}" />
+	<http:request-config name="HTTP_UHUB_SAPI_Request_configuration" doc:name="HTTP Request configuration" doc:id="18f84cf5-477b-476b-afd9-eb714dd1d961" basePath="/${secure::ehub.sapi.basepath}" >
+		<http:request-connection host="${secure::ehub.sapi.host}" port="${secure::ehub.sapi.port}" />
+	</http:request-config>
+<!-- 	<api-gateway:autodiscovery apiId="${instance.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="50f841cd-bc73-4655-aa43-3aba9ef19e51" flowRef="covid-eapi-main" />
+ --></mule>
